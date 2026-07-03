@@ -1,0 +1,169 @@
+/* Pretendard Variable — Korean-capable substitute for Raveo Variable */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+
+@import "tailwindcss";
+
+@theme {
+  /* Colors — 5-chip blue palette
+     #2A5078 deep navy · #6587A5 steel blue · #848996 gray
+     #DBE4EB pale blue · #FFFFFF white */
+  --color-void: #2a5078;
+  --color-carbon: #6587a5;
+  --color-graphite: #848996;
+  --color-steel: #dbe4eb;
+  --color-ash: #dbe4eb;
+  --color-paper: #ffffff;
+
+  /* Typography — Font Families */
+  --font-display: "Pretendard Variable", Pretendard, ui-sans-serif, system-ui,
+    -apple-system, "Segoe UI", Roboto, "Apple SD Gothic Neo",
+    "Malgun Gothic", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    Monaco, Consolas, monospace;
+
+  /* Typography — Scale */
+  --text-caption: 12px;
+  --text-caption--line-height: 1.2;
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 1.6;
+  --text-body-sm--letter-spacing: -0.14px;
+  --text-body: 16px;
+  --text-body--line-height: 1.6;
+  --text-body--letter-spacing: -0.16px;
+  --text-subheading: 24px;
+  --text-subheading--line-height: 1.4;
+  --text-subheading--letter-spacing: -0.24px;
+  --text-heading: 32px;
+  --text-heading--line-height: 1.2;
+  --text-heading--letter-spacing: -0.32px;
+  --text-display: 70px;
+  --text-display--line-height: 1.1;
+  --text-display--letter-spacing: -2.8px;
+  --text-display-sm: 44px;
+  --text-display-sm--line-height: 1.1;
+  --text-display-sm--letter-spacing: -1.6px;
+
+  /* Layout */
+  --spacing-page: 1200px;
+
+  /* Border Radius */
+  --radius-nav: 6px;
+  --radius-tile: 20px;
+  --radius-pill: 100px;
+}
+
+:root {
+  --page-max-width: 1200px;
+  --section-gap: 80px;
+  --card-padding: 24px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-paper);
+  font-family: var(--font-display);
+  font-feature-settings: "tnum" on;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Display headlines — the system's signature: max weight, tight tracking */
+.type-display {
+  font-weight: 900;
+  font-size: clamp(40px, 7vw, 70px);
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
+
+.type-heading {
+  font-weight: 900;
+  font-size: var(--text-heading);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+/* Eyebrow chip — Geist Mono micro-label */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Hairline containment — quiet solid frame around each section */
+.frame-box {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Hero radial wash — desk lamp on a drafting table */
+.hero-wash {
+  background: radial-gradient(
+    ellipse 70% 60% at 50% 35%,
+    var(--color-carbon) 0%,
+    var(--color-void) 100%
+  );
+}
+
+/* Hero opening — elements rise softly into place (transform/opacity only) */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-rise {
+  animation: hero-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--rise-delay, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise {
+    animation: none;
+  }
+}
+
+@layer components {
+  /* Outlined pill button — a wireframe of a button */
+  .btn-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--color-paper);
+    border-radius: 100px;
+    padding: 8px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-paper);
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .btn-pill:hover {
+    background: var(--color-paper);
+    color: var(--color-void);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-paper);
+    opacity: 0.85;
+    transition: opacity 0.15s ease;
+  }
+
+  .btn-ghost:hover {
+    opacity: 1;
+  }
+}
