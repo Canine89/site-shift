@@ -16,6 +16,10 @@ export const metadata: Metadata = {
   },
   description:
     "시프트 출판사는 새로운 모습, 능력을 발견하는 데 도움이 되는 책을 만듭니다. 올바른 지식과 정보가 가득 담긴 솔직하고 실용적인 책.",
+  icons: {
+    icon: [{ url: "/shift-logo.png", type: "image/png" }],
+    apple: [{ url: "/shift-logo.png", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({
