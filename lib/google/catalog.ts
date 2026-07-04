@@ -7,7 +7,7 @@ import { OUT_OF_PRINT_SLUGS, slugForTitle } from "@/lib/google/slugs";
 
 const SHEET_ID =
   process.env.GOOGLE_SHEET_ID ??
-  "1dXiO7FUEbOzkMEDkJVeDHdVC6XKen7gv8Y6tXQve3Mk";
+  "1VfrDce-7N-KJ1UpXP57MtR-T1Bl2gRCa5yBmkk2TD1E";
 const SHEET_GID = process.env.GOOGLE_SHEET_GID ?? "0";
 
 export type SheetEntry = {
