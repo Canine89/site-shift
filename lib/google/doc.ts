@@ -1,6 +1,21 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import type { Book, BookStatus } from "@/lib/types";
 
 const DOC_ID_RE = /\/document\/d\/([\w-]+)/;
+
+/**
+ * 표지 경로 결정: 큐레이션된 로컬 파일(public/covers/{id}.jpg)이 있으면 우선,
+ * 없으면 구글 문서에서 표지를 추출하는 라우트를 사용한다.
+ */
+function resolveCoverUrl(id: string, docUrl: string): string {
+  if (existsSync(join(process.cwd(), "public", "covers", `${id}.jpg`))) {
+    return `/covers/${id}.jpg`;
+  }
+  const docId = extractGoogleDocId(docUrl);
+  if (docId) return `/api/book-cover/${docId}`;
+  return `/covers/${id}.jpg`;
+}
 
 export function extractGoogleDocId(url: string): string | null {
   const m = url.match(DOC_ID_RE);
@@ -119,6 +134,75 @@ export function parseBookFromDoc(
   };
 }
 
+function imageDimensions(
+  contentType: string,
+  data: Buffer
+): { width: number; height: number } | null {
+  if (contentType === "image/png") {
+    if (data.length < 24) return null;
+    return { width: data.readUInt32BE(16), height: data.readUInt32BE(20) };
+  }
+  if (contentType === "image/jpeg") {
+    let i = 2;
+    while (i < data.length) {
+      if (data[i] !== 0xff) {
+        i += 1;
+        continue;
+      }
+      const marker = data[i + 1];
+      if (marker >= 0xc0 && marker <= 0xc3) {
+        return {
+          height: data.readUInt16BE(i + 5),
+          width: data.readUInt16BE(i + 7),
+        };
+      }
+      i += 2 + data.readUInt16BE(i + 2);
+    }
+  }
+  return null;
+}
+
+export type DocCover = { data: Buffer; contentType: string };
+
+/**
+ * 구글 문서 HTML export에 base64로 내장된 이미지 중 표지를 고른다.
+ * 표지는 세로형(3:4)이므로 세로 비율 이미지 중 가장 큰 것을 선택하고,
+ * 세로형이 없으면 면적이 가장 큰 이미지를 사용한다.
+ */
+export async function extractDocCover(docId: string): Promise<DocCover | null> {
+  const res = await fetch(
+    `https://docs.google.com/document/d/${docId}/export?format=html`,
+    { next: { revalidate: 3600 } }
+  );
+  if (!res.ok) return null;
+  const html = await res.text();
+
+  const re = /src="data:(image\/[a-z]+);base64,([^"]+)"/g;
+  const images: {
+    contentType: string;
+    data: Buffer;
+    width: number;
+    height: number;
+  }[] = [];
+
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(html)) !== null) {
+    const contentType = m[1];
+    const data = Buffer.from(m[2], "base64");
+    const dim = imageDimensions(contentType, data);
+    if (!dim || dim.width === 0 || dim.height === 0) continue;
+    images.push({ contentType, data, ...dim });
+  }
+  if (!images.length) return null;
+
+  const portrait = images.filter((img) => img.height > img.width * 1.1);
+  const pool = portrait.length ? portrait : images;
+  pool.sort((a, b) => b.width * b.height - a.width * a.height);
+
+  const best = pool[0];
+  return { data: best.data, contentType: best.contentType };
+}
+
 export async function fetchDocText(docUrl: string): Promise<string> {
   const id = extractGoogleDocId(docUrl);
   if (!id) return "";
@@ -155,7 +239,7 @@ export async function buildBookFromDoc(
       status,
       links: {},
       docUrl,
-      coverUrl: `/covers/${id}.jpg`,
+      coverUrl: resolveCoverUrl(id, docUrl),
       featured,
     };
   }
@@ -175,7 +259,7 @@ export async function buildBookFromDoc(
     pageCount: parsed.pageCount,
     price: parsed.price,
     docUrl,
-    coverUrl: `/covers/${id}.jpg`,
+    coverUrl: resolveCoverUrl(id, docUrl),
     featured,
   };
 }
