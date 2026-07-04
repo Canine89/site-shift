@@ -15,7 +15,13 @@ export async function getBooks(): Promise<Book[]> {
 
 export async function getBook(id: string): Promise<Book | null> {
   const books = await getBooks();
-  const book = books.find((b) => b.id === id);
+  let decoded = id;
+  try {
+    decoded = decodeURIComponent(id);
+  } catch {
+    // malformed URI — fall back to raw id
+  }
+  const book = books.find((b) => b.id === id || b.id === decoded);
   if (!book?.docUrl) return book ?? null;
 
   // 상세 페이지: 독스 최신 본문 재확인
