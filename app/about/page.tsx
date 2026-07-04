@@ -1,11 +1,33 @@
 import type { Metadata } from "next";
 import Section from "@/components/Section";
+import {
+  AUTHOR_PROPOSAL_EMAIL_NOTE_LINES,
+  AUTHOR_PROPOSAL_FORM_URL,
+  AUTHOR_PROPOSAL_LINES,
+  BLOG_URL,
+  COMPANY_PHONE,
+  CONTACT_EMAIL,
+  OFFER_EMAIL,
+} from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "출판사 소개",
   description:
     "도서출판 시프트는 거짓과 과장이 없는 솔직한 책, 체계적으로 정리된 실용적인 책을 만듭니다.",
 };
+
+const PRINCIPLES = [
+  {
+    title: "거짓과 과장이 없는 책",
+    description:
+      "독자의 눈길을 끌기 위한 과장보다 독자에게 실제 도움이 되는 내용을 담겠습니다. 충분한 검토와 검증을 거친 정보, 경험과 근거를 바탕으로 한 이야기를 통해 오래도록 신뢰받는 책을 만들겠습니다.",
+  },
+  {
+    title: "체계적으로 정리된 책",
+    description:
+      "내용을 쉽고 명확하게 전달하는 것도 좋은 책의 요건입니다. 시프트는 흐름을 따라 자연스럽게 이해할 수 있는 구성과 실용적인 예시를 담아 누구나 끝까지 읽을 수 있고, 바로 적용할 수 있는 책을 만들겠습니다.",
+  },
+];
 
 const HISTORY = [
   {
@@ -20,30 +42,21 @@ const HISTORY = [
       "IT·컴퓨터 분야 베스트셀러, 교보문고 분야 종합 2위에 올랐습니다.",
   },
   {
-    date: "2025.03",
-    title: "첫 예술 분야 출간",
-    description: "교보문고 예술 분야 베스트셀러에 올랐습니다.",
-  },
-  {
     date: "2025.05",
-    title: "출간 분야 확장",
+    title: "‘디자인 읽기’ 시리즈 출간",
     description:
-      "IT를 넘어 디자인, 예술까지 — 독자의 Shift가 필요한 모든 곳으로 영역을 넓혀 가고 있습니다.",
-  },
-];
-
-const VALUES = [
-  {
-    label: "HONESTY",
-    title: "거짓과 과장이 없는 책",
-    description:
-      "올바른 지식과 정보를 알려 주는 솔직한 책을 만듭니다. 표지의 약속과 본문의 내용이 다르지 않도록, 문장 하나까지 검증합니다.",
+      "디자이너의 읽을 거리, ‘디자인 읽기’ 시리즈 출간을 시작하였습니다.",
   },
   {
-    label: "STRUCTURE",
-    title: "체계적으로 정리된 책",
+    date: "2025.11",
+    title: "세종 도서 선정",
     description:
-      "넘쳐 나는 정보 속에서 꼭 필요한 것만 골라 실용적인 순서로 배열합니다. 독자가 길을 잃지 않는 구성이 시프트의 편집 원칙입니다.",
+      "시프트 출판사의 세 번째 출간 도서가 2025 세종도서 교양 부문에 선정되었습니다.",
+  },
+  {
+    date: "2026.10",
+    title: "취미 실용 도서 출간",
+    description: "AI로 편리해진 일상, 새로운 취미의 시작을 돕습니다.",
   },
 ];
 
@@ -57,67 +70,31 @@ export default function AboutPage() {
           또 다른 나,
           <br />더 나은 나를 발견하는 시간
         </h1>
-        <p className="text-body text-steel mt-6 max-w-[560px]">
-          여러분의 변화를 도서출판 시프트가 함께 하겠습니다. 조용하지만
-          분명하게 — 독자의 일상과 실무 스킬을 한 단계 업그레이드하는 책을
-          만듭니다.
-        </p>
+        <div className="flex flex-col gap-4 text-body text-steel mt-6 max-w-[640px] text-pretty">
+          <p>한 권의 책은 새로운 지식을 넘어 새로운 관점을 선물합니다.</p>
+          <p>
+            시프트는 업무와 일상에 작은 변화를 더하고, 오늘보다 한 걸음 성장한
+            내일을 만날 수 있는 책을 만듭니다. 독자의 가능성을 넓히고 더 나은
+            나를 발견하는 여정, 시프트가 함께하겠습니다.
+          </p>
+        </div>
       </div>
 
-      {/* 가치 — Feature split panels */}
-      {VALUES.map((value, i) => (
-        <Section key={value.label}>
-          <div
-            className={`grid grid-cols-1 md:grid-cols-2 gap-10 items-center ${
-              i % 2 === 1 ? "md:[&>*:first-child]:order-2" : ""
-            }`}
-          >
-            <div className="flex flex-col gap-4">
-              <span className="eyebrow text-steel">{value.label}</span>
-              <h2 className="type-heading text-paper">{value.title}</h2>
-              <p className="text-body text-ash leading-relaxed">
-                {value.description}
+      {/* 만드는 책의 원칙 */}
+      <Section eyebrow="OUR BOOKS" title="시프트가 만드는 책">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {PRINCIPLES.map((item) => (
+            <div key={item.title} className="flex flex-col gap-3">
+              <h3 className="type-heading text-paper text-subheading">
+                {item.title}
+              </h3>
+              <p className="text-body text-steel leading-relaxed text-pretty">
+                {item.description}
               </p>
             </div>
-            <div className="aspect-square max-w-[380px] w-full mx-auto rounded-tile bg-carbon flex items-center justify-center">
-              {i === 0 ? (
-                <svg
-                  viewBox="0 0 120 120"
-                  fill="none"
-                  stroke="#dbe4eb"
-                  strokeWidth="1"
-                  className="w-2/3 h-2/3"
-                  aria-hidden
-                >
-                  <rect x="30" y="20" width="60" height="80" rx="3" />
-                  <path d="M40 34 H80 M40 44 H80 M40 54 H68" />
-                  <path d="M40 70 L52 82 L82 52" strokeWidth="1.5" />
-                  <circle cx="24" cy="30" r="1" fill="#ffffff" stroke="none" />
-                  <circle cx="98" cy="26" r="1" fill="#ffffff" stroke="none" />
-                  <circle cx="102" cy="88" r="1" fill="#ffffff" stroke="none" />
-                  <circle cx="18" cy="92" r="1" fill="#ffffff" stroke="none" />
-                </svg>
-              ) : (
-                <svg
-                  viewBox="0 0 120 120"
-                  fill="none"
-                  stroke="#dbe4eb"
-                  strokeWidth="1"
-                  className="w-2/3 h-2/3"
-                  aria-hidden
-                >
-                  <path d="M60 12 L104 34 L60 56 L16 34 Z" />
-                  <path d="M16 56 L60 78 L104 56" opacity="0.55" />
-                  <path d="M16 78 L60 100 L104 78" opacity="0.55" />
-                  <circle cx="60" cy="34" r="1.2" fill="#ffffff" stroke="none" />
-                  <circle cx="30" cy="66" r="1" fill="#ffffff" stroke="none" />
-                  <circle cx="92" cy="88" r="1" fill="#ffffff" stroke="none" />
-                </svg>
-              )}
-            </div>
-          </div>
-        </Section>
-      ))}
+          ))}
+        </div>
+      </Section>
 
       {/* History 타임라인 */}
       <Section eyebrow="HISTORY" title="시프트의 걸음">
@@ -150,32 +127,48 @@ export default function AboutPage() {
       <Section surface>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           <div className="flex flex-col gap-4">
-            <span className="eyebrow text-steel">CONNECT WITH US</span>
-            <h2 className="type-heading text-paper">
-              시프트와 함께 변화해 나갈
-              <br />
-              여러분을 기다립니다
+            <span className="eyebrow text-steel">WRITE WITH US</span>
+            <h2 className="type-heading text-paper text-balance">
+              시프트와 함께 변화를 만들어갈 여러분을 기다립니다
             </h2>
-            <p className="text-body text-ash">
-              아이디어나 원고가 있다면 지금 바로 제안해 주세요. 오탈자 제보와
-              문의도 언제든 환영합니다.
-            </p>
+            <div className="flex flex-col gap-2 text-body text-ash leading-relaxed text-pretty">
+              {AUTHOR_PROPOSAL_LINES.map((line) => (
+                <p key={line}>{line}</p>
+              ))}
+            </div>
             <a
-              href="mailto:ask@shiftbook.co.kr?subject=%5B%EC%A7%91%ED%95%84%20%EC%A0%9C%EC%95%88%5D"
+              href={AUTHOR_PROPOSAL_FORM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-pill w-fit mt-2"
             >
-              집필 제안하기
+              집필 계획서 작성
             </a>
+            <div className="flex flex-col gap-1.5 text-body-sm text-graphite text-pretty">
+              {AUTHOR_PROPOSAL_EMAIL_NOTE_LINES.map((line) => (
+                <p key={line}>{line}</p>
+              ))}
+              <a
+                href={`mailto:${OFFER_EMAIL}`}
+                className="text-steel hover:text-paper underline underline-offset-4 w-fit"
+              >
+                {OFFER_EMAIL}
+              </a>
+            </div>
           </div>
 
           <dl className="flex flex-col gap-4 md:pl-10 md:border-l md:border-graphite">
             <div>
-              <dt className="eyebrow text-steel mb-1">EMAIL</dt>
-              <dd className="text-body text-paper">ask@shiftbook.co.kr</dd>
+              <dt className="eyebrow text-steel mb-1">집필 제안</dt>
+              <dd className="text-body text-paper">{OFFER_EMAIL}</dd>
+            </div>
+            <div>
+              <dt className="eyebrow text-steel mb-1">문의 · 오탈자</dt>
+              <dd className="text-body text-paper">{CONTACT_EMAIL}</dd>
             </div>
             <div>
               <dt className="eyebrow text-steel mb-1">PHONE</dt>
-              <dd className="text-body text-paper">010-5855-5587</dd>
+              <dd className="text-body text-paper">{COMPANY_PHONE}</dd>
             </div>
             <div>
               <dt className="eyebrow text-steel mb-1">SNS</dt>
@@ -197,12 +190,12 @@ export default function AboutPage() {
                   facebook — 도서출판 시프트
                 </a>
                 <a
-                  href="https://blog.naver.com/scsvz"
+                  href={BLOG_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-body text-ash hover:text-paper"
                 >
-                  blog.naver.com/scsvz
+                  shiftbook.notion.site
                 </a>
               </dd>
             </div>

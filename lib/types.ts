@@ -1,4 +1,4 @@
-export type BookStatus = "판매 중" | "절판";
+export type BookStatus = "판매 중" | "절판" | "출간 예정";
 
 export interface BookLinks {
   kyobo?: string;
@@ -15,6 +15,9 @@ export interface Book {
   title: string;
   subtitle?: string;
   author: string;
+  /** 시트 CATEGORY — 쉼표 구분, 필터·표시용 */
+  categories: string[];
+  /** 카드 등에 표시할 대표 분야 (categories[0]) */
   category: string;
   coverUrl?: string;
   description: string;

@@ -33,5 +33,7 @@ export async function getBook(id: string): Promise<Book | null> {
     status: book.status,
     featured: book.featured,
     links: book.links,
+    categories: book.categories,
+    category: book.category,
   };
 }

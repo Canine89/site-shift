@@ -2,7 +2,7 @@
 import type { Book } from "@/lib/types";
 
 type BookCoverProps = {
-  book: Pick<Book, "title" | "coverUrl" | "category">;
+  book: Pick<Book, "title" | "coverUrl" | "categories">;
   className?: string;
 };
 
@@ -54,7 +54,9 @@ export default function BookCover({ book, className = "" }: BookCoverProps) {
         <circle cx="10" cy="44" r="0.8" fill="#ffffff" stroke="none" />
       </svg>
       <div className="text-center">
-        <p className="eyebrow text-steel mb-2">{book.category}</p>
+        <p className="eyebrow text-steel mb-2">
+          {book.categories[0] ?? "기타"}
+        </p>
         <p className="text-body-sm font-medium text-paper leading-snug line-clamp-3">
           {book.title}
         </p>

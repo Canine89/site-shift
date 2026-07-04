@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { AUTHOR_PROPOSAL_FORM_URL } from "@/lib/site";
 
 const NAV_LINKS = [
   { href: "/", label: "홈" },
@@ -64,7 +65,12 @@ export default function Header() {
         </nav>
 
         <div className="hidden md:flex items-center">
-          <a href="mailto:ask@shiftbook.co.kr" className="btn-pill">
+          <a
+            href={AUTHOR_PROPOSAL_FORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-pill"
+          >
             집필 제안
           </a>
         </div>
@@ -94,7 +100,12 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
-          <a href="mailto:ask@shiftbook.co.kr" className="btn-pill w-fit">
+          <a
+            href={AUTHOR_PROPOSAL_FORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-pill w-fit"
+          >
             집필 제안
           </a>
         </nav>

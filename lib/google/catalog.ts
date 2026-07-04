@@ -1,10 +1,9 @@
 import type { Book, BookStatus } from "@/lib/types";
+import { parseSheetCategories, primaryCategory } from "@/lib/book-categories";
+import { parseSheetStatus } from "@/lib/book-status";
 import { parseCsv, rowsToObjects } from "@/lib/google/csv";
 import { buildBookFromDoc } from "@/lib/google/doc";
-import {
-  OUT_OF_PRINT_SLUGS,
-  slugForTitle,
-} from "@/lib/google/slugs";
+import { OUT_OF_PRINT_SLUGS, slugForTitle } from "@/lib/google/slugs";
 
 const SHEET_ID =
   process.env.GOOGLE_SHEET_ID ??
@@ -17,6 +16,7 @@ export type SheetEntry = {
   docUrl: string;
   status: BookStatus;
   featured: boolean;
+  categories: string[];
 };
 
 function pick(row: Record<string, string>, ...keys: string[]): string {
@@ -47,10 +47,11 @@ function rowToEntry(row: Record<string, string>): SheetEntry | null {
   if (!title || !docUrl) return null;
 
   const id = pick(row, "id", "ID") || slugForTitle(title);
-  const status: BookStatus =
-    pick(row, "status", "STATUS") === "절판" || OUT_OF_PRINT_SLUGS.has(id)
-      ? "절판"
-      : "판매 중";
+  const statusRaw = pick(row, "STATUS", "status", "상태");
+  const statusFallback: BookStatus = OUT_OF_PRINT_SLUGS.has(id)
+    ? "절판"
+    : "판매 중";
+  const status = parseSheetStatus(statusRaw, statusFallback);
 
   return {
     id,
@@ -58,6 +59,7 @@ function rowToEntry(row: Record<string, string>): SheetEntry | null {
     docUrl,
     status,
     featured: parseBool(pick(row, "BEST", "best")),
+    categories: parseSheetCategories(pick(row, "CATEGORY", "category", "카테고리")),
   };
 }
 
@@ -96,7 +98,17 @@ export async function loadBooksFromSheet(): Promise<Book[]> {
         entry.status,
         entry.featured
       );
-      return partial as Book;
+      const categories =
+        entry.categories.length > 0
+          ? entry.categories
+          : partial.category
+            ? [partial.category]
+            : ["기타"];
+      return {
+        ...(partial as Book),
+        categories,
+        category: primaryCategory(categories),
+      };
     })
   );
 

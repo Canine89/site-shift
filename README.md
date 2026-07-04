@@ -25,7 +25,7 @@ http://localhost:3000 에서 확인할 수 있습니다.
 
 도서는 Google Sheets와 각 도서의 Google Docs에서 불러옵니다.
 
-1. **시트** — `TITLE`, `URL` 열에 제목과 Google Docs 링크를 입력합니다. 랜딩 베스트셀러는 `BEST` 열(`true`/`false`)로 지정합니다.
+1. **시트** — `CATEGORY`(쉼표 구분), `TITLE`, `URL`, `BEST`(`true`/`false`), `STATUS`(`판매 중` · `절판` · `출간 예정`) 열을 사용합니다.
 2. **Google Docs** — 도서 소개·저자·구매 링크 등 상세 정보를 작성합니다.
 3. **표지** — `public/covers/{slug}.jpg`에 로컬 이미지를 둡니다.
 

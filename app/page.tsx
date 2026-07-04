@@ -4,6 +4,12 @@ import Section from "@/components/Section";
 import HeroTitleLottie from "@/components/HeroTitleLottie";
 import BookCard from "@/components/BookCard";
 import { getBooks } from "@/lib/books-data";
+import {
+  AUTHOR_PROPOSAL_EMAIL_NOTE_LINES,
+  AUTHOR_PROPOSAL_FORM_URL,
+  AUTHOR_PROPOSAL_LINES,
+  OFFER_EMAIL,
+} from "@/lib/site";
 
 export const revalidate = 60;
 
@@ -16,7 +22,7 @@ export default async function HomePage() {
     <div className="pb-4">
       {/* Hero Spotlight */}
       <section className="hero-wash -mt-16 pt-16">
-        <div className="mx-auto max-w-(--page-max-width) px-4 sm:px-6">
+        <div className="relative z-10 mx-auto max-w-(--page-max-width) px-4 sm:px-6">
           <div className="flex flex-col items-center text-center gap-6 py-24 sm:py-36 max-w-[720px] mx-auto">
             <Image
               src="/shift-logo-white.png"
@@ -28,11 +34,12 @@ export default async function HomePage() {
             />
             <HeroTitleLottie />
             <p
-              className="text-body text-steel max-w-[520px] hero-rise"
+              className="text-body text-steel max-w-[520px] hero-rise text-balance"
               style={{ "--rise-delay": "0.45s" } as React.CSSProperties}
             >
-              여러분의 변화를 도서출판 시프트가 함께 하겠습니다.<br />독자의 일상과
-              실무 스킬을 한 단계 업그레이드하는 책을 만듭니다.
+              한 권의 책이 생각의 폭을 한 뼘 넓힙니다.
+              <br />
+              변화의 시작을 시프트가 함께 하겠습니다.
             </p>
             <div
               className="flex items-center gap-3 hero-rise"
@@ -67,16 +74,31 @@ export default async function HomePage() {
       <Section surface center>
         <div className="flex flex-col items-center text-center gap-5 py-6">
           <span className="eyebrow text-steel">WRITE WITH US</span>
-          <h2 className="type-heading text-paper">
-            당신의 지식이 누군가의 Shift가 됩니다
-          </h2>
-          <p className="text-body text-steel max-w-[520px]">
-            아이디어나 원고가 있다면 지금 바로 제안해 주세요.<br />시프트와 함께
-            변화해 나갈 저자를 기다립니다.
-          </p>
-          <a href="mailto:ask@shiftbook.co.kr" className="btn-pill">
-            집필 제안하기
+          <h2 className="type-heading text-paper">시프트에 출간 제안하기</h2>
+          <div className="flex flex-col gap-1.5 text-body text-steel max-w-[640px] text-balance">
+            {AUTHOR_PROPOSAL_LINES.map((line) => (
+              <p key={line}>{line}</p>
+            ))}
+          </div>
+          <a
+            href={AUTHOR_PROPOSAL_FORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-pill"
+          >
+            집필 계획서 작성
           </a>
+          <div className="flex flex-col gap-1.5 text-body-sm text-graphite max-w-[560px] text-balance">
+            {AUTHOR_PROPOSAL_EMAIL_NOTE_LINES.map((line) => (
+              <p key={line}>{line}</p>
+            ))}
+            <a
+              href={`mailto:${OFFER_EMAIL}`}
+              className="text-steel hover:text-paper underline underline-offset-4"
+            >
+              {OFFER_EMAIL}
+            </a>
+          </div>
         </div>
       </Section>
     </div>

@@ -5,6 +5,8 @@ import Section from "@/components/Section";
 import BookCover from "@/components/BookCover";
 import StatusBadge from "@/components/StatusBadge";
 import { getBook } from "@/lib/books-data";
+import { isBookAvailable } from "@/lib/book-status";
+import { ERRATA_FORM_URL } from "@/lib/site";
 
 export const revalidate = 60;
 
@@ -51,8 +53,10 @@ export default async function BookDetailPage({ params }: PageProps) {
           <BookCover book={book} className="max-w-[340px] self-start" />
 
           <div className="flex flex-col gap-6">
-            <div className="flex items-center gap-3">
-              <span className="eyebrow text-steel">{book.category}</span>
+            <div className="flex items-center gap-3 flex-wrap">
+              <span className="eyebrow text-steel">
+                {book.categories.join(" · ")}
+              </span>
               <StatusBadge status={book.status} />
             </div>
 
@@ -111,7 +115,7 @@ export default async function BookDetailPage({ params }: PageProps) {
             </p>
 
             <div className="flex flex-wrap items-center gap-3 mt-2">
-              {storeLinks.length > 0 ? (
+              {isBookAvailable(book.status) && storeLinks.length > 0 ? (
                 storeLinks.map(([store, url]) => (
                   <a
                     key={store}
@@ -126,6 +130,10 @@ export default async function BookDetailPage({ params }: PageProps) {
               ) : book.status === "판매 중" ? (
                 <p className="text-body-sm text-steel">
                   온라인 서점에서 &ldquo;{book.title}&rdquo;을 검색해 보세요.
+                </p>
+              ) : book.status === "출간 예정" ? (
+                <p className="text-body-sm text-steel">
+                  출간을 준비 중입니다. 곧 만나뵙겠습니다.
                 </p>
               ) : null}
               {book.links?.resources && (
@@ -149,9 +157,9 @@ export default async function BookDetailPage({ params }: PageProps) {
             오탈자를 발견하셨나요? 더 나은 책을 만드는 데 큰 도움이 됩니다.
           </p>
           <a
-            href={`mailto:ask@shiftbook.co.kr?subject=${encodeURIComponent(
-              `[오탈자 제보] ${book.title}`
-            )}`}
+            href={ERRATA_FORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn-pill"
           >
             오탈자 제보하기

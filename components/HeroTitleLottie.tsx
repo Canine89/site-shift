@@ -7,7 +7,7 @@ const SLOGAN = "또 다른 나, 더 나은 나를 발견하는 시간";
 
 /**
  * 히어로 슬로건 Lottie 타이틀 (public/lottie/hero-title.json).
- * 두 줄이 마스크 아래에서 떠오르고, 점선 밑줄이 그려진 뒤 주석 점이 찍힌다.
+ * 두 줄이 마스크 아래에서 떠오른다.
  */
 export default function HeroTitleLottie() {
   const containerRef = useRef<HTMLDivElement>(null);

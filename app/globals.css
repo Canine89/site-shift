@@ -58,6 +58,52 @@
   --card-padding: 24px;
 }
 
+:root,
+html[data-theme="blue"] {
+  --color-void: #2a5078;
+  --color-carbon: #6587a5;
+  --color-graphite: #848996;
+  --color-steel: #dbe4eb;
+  --color-ash: #dbe4eb;
+  --color-paper: #ffffff;
+}
+
+html[data-theme="ink"] {
+  --color-void: #000000;
+  --color-carbon: #1c1c1c;
+  --color-graphite: #4d4d4d;
+  --color-steel: #808080;
+  --color-ash: #ababab;
+  --color-paper: #ffffff;
+}
+
+html[data-theme="forest"] {
+  --color-void: #1a3328;
+  --color-carbon: #2d5a47;
+  --color-graphite: #5c7a6a;
+  --color-steel: #b8cfc4;
+  --color-ash: #c9ddd3;
+  --color-paper: #f4faf7;
+}
+
+html[data-theme="wine"] {
+  --color-void: #3a1f2e;
+  --color-carbon: #6b3a52;
+  --color-graphite: #8a6678;
+  --color-steel: #dcc9d2;
+  --color-ash: #e8d8df;
+  --color-paper: #faf6f8;
+}
+
+html[data-theme="slate"] {
+  --color-void: #1e2936;
+  --color-carbon: #3d5166;
+  --color-graphite: #64748b;
+  --color-steel: #cbd5e1;
+  --color-ash: #d8e0ea;
+  --color-paper: #f8fafc;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -68,6 +114,9 @@ body {
   font-family: var(--font-display);
   font-feature-settings: "tnum" on;
   -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
 }
 
 /* Display headlines — the system's signature: max weight, tight tracking */
@@ -96,15 +145,36 @@ body {
 
 /* Hairline containment — quiet solid frame around each section */
 .frame-box {
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid color-mix(in srgb, var(--color-paper) 18%, transparent);
 }
 
 /* Hero radial wash — desk lamp on a drafting table */
 .hero-wash {
+  position: relative;
+  background:
+    radial-gradient(
+      ellipse 36% 30% at 50% 24%,
+      color-mix(in srgb, var(--color-paper) 18%, var(--color-carbon)) 0%,
+      color-mix(in srgb, var(--color-paper) 6%, var(--color-carbon)) 42%,
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 88% 72% at 50% 30%,
+      var(--color-carbon) 0%,
+      color-mix(in srgb, var(--color-void) 25%, var(--color-carbon)) 50%,
+      var(--color-void) 100%
+    );
+}
+
+.hero-wash::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   background: radial-gradient(
-    ellipse 70% 60% at 50% 35%,
-    var(--color-carbon) 0%,
-    var(--color-void) 100%
+    ellipse 55% 40% at 50% 22%,
+    color-mix(in srgb, var(--color-paper) 8%, transparent) 0%,
+    transparent 65%
   );
 }
 

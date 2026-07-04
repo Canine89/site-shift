@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
+import ThemePicker from "@/components/ThemePicker";
+import { BLOG_URL, COMPANY_ADDRESS, ERRATA_FORM_URL } from "@/lib/site";
 
 export default function Footer() {
   return (
@@ -55,12 +57,20 @@ export default function Footer() {
                   Facebook
                 </a>
                 <a
-                  href="https://blog.naver.com/scsvz"
+                  href={BLOG_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-body-sm text-ash hover:text-paper"
                 >
                   Blog
+                </a>
+                <a
+                  href={ERRATA_FORM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-body-sm text-ash hover:text-paper"
+                >
+                  오탈자 제보
                 </a>
                 <a
                   href="mailto:ask@shiftbook.co.kr"
@@ -72,14 +82,20 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="border-t border-carbon pt-6">
-            <p className="text-caption text-steel leading-relaxed">
-              상호명 시프트 · 사업자 등록번호 632-99-01606 · 발행인 송찬수 ·
-              문의 ask@shiftbook.co.kr
-            </p>
-            <p className="text-caption text-graphite mt-1">
-              © 2026 shift. All rights reserved.
-            </p>
+          <div className="border-t border-carbon pt-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-caption text-steel leading-relaxed">
+                상호명 시프트 · 사업자 등록번호 632-99-01606 · 발행인 송찬수 ·
+                문의 ask@shiftbook.co.kr
+              </p>
+              <p className="text-caption text-steel leading-relaxed mt-1">
+                {COMPANY_ADDRESS}
+              </p>
+              <p className="text-caption text-graphite mt-1">
+                © 2026 shift. All rights reserved.
+              </p>
+            </div>
+            <ThemePicker />
           </div>
         </div>
       </div>

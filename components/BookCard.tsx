@@ -11,8 +11,10 @@ export default function BookCard({ book }: { book: Book }) {
     >
       <BookCover book={book} />
       <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2">
-          <span className="eyebrow text-steel">{book.category}</span>
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="eyebrow text-steel">
+            {book.categories.join(" · ")}
+          </span>
           <StatusBadge status={book.status} />
         </div>
         <h3 className="text-body font-bold text-paper leading-snug group-hover:underline underline-offset-4">
