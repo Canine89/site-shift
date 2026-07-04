@@ -16,6 +16,7 @@ export type SheetEntry = {
   docUrl: string;
   status: BookStatus;
   featured: boolean;
+  isNew: boolean;
   categories: string[];
 };
 
@@ -59,6 +60,7 @@ function rowToEntry(row: Record<string, string>): SheetEntry | null {
     docUrl,
     status,
     featured: parseBool(pick(row, "BEST", "best")),
+    isNew: parseBool(pick(row, "NEW", "new", "신간")),
     categories: parseSheetCategories(pick(row, "CATEGORY", "category", "카테고리")),
   };
 }
@@ -106,6 +108,7 @@ export async function loadBooksFromSheet(): Promise<Book[]> {
             : ["기타"];
       return {
         ...(partial as Book),
+        isNew: entry.isNew,
         categories,
         category: primaryCategory(categories),
       };

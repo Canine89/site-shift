@@ -31,6 +31,8 @@ export interface Book {
   /** 예: "21,000원" */
   price?: string;
   featured?: boolean;
+  /** 시트 NEW 컬럼 — 랜딩의 '시프트의 새 책' 노출 여부 */
+  isNew?: boolean;
   /** 신간안내 구글 문서 URL — 설명 본문 소스 */
   docUrl?: string;
   createdAt?: number;

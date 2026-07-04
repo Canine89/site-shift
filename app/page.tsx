@@ -17,6 +17,7 @@ export default async function HomePage() {
   const books = await getBooks();
   const featured = books.filter((b) => b.featured).slice(0, 3);
   const showcase = featured.length > 0 ? featured : books.slice(0, 3);
+  const newBooks = books.filter((b) => b.isNew).slice(0, 3);
 
   return (
     <div className="pb-4">
@@ -55,6 +56,17 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* 시프트의 새 책 */}
+      {newBooks.length > 0 && (
+        <Section eyebrow="new arrival" title="시프트의 새 책">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {newBooks.map((book) => (
+              <BookCard key={book.id} book={book} />
+            ))}
+          </div>
+        </Section>
+      )}
 
       {/* 대표 도서 */}
       <Section eyebrow="best seller" title="시프트의 베스트 셀러">
